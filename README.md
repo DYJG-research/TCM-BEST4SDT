@@ -83,10 +83,10 @@ $$
 S = \frac{|A \cap B|}{|A| + |\bar{A} \cap B|}
 $$
 
-    Notation:
-    - $S$: score of the question
-    - $A$: gold answers; $B$: model answers
-    - $|A \cap B|$: number of correct selections; $|\bar{A} \cap B|$: number of wrong selections
+  Notation:
+  - $S$: score of the question
+  - $A$: gold answers; $B$: model answers
+  - $|A \cap B|$: number of correct selections; $|\bar{A} \cap B|$: number of wrong selections
 
     Final score is the mean of three rounds.
 
@@ -296,6 +296,7 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
+
 
 
 
