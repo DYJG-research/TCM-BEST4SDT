@@ -113,23 +113,27 @@ The reward model developed in this work has been open‑sourced on ModelScope.
 
 ### 🤖 Model Selection
 
-#### General domain LLMs
+<div align="center">
 
-|               Model               |             Size              |
-| :------------------------------: | :---------------------------: |
-|             `GPT-5`              |               -               |
-|         `Gemini 2.5 Pro`         |               -               |
-|          `DeepSeek-R1`           |              671B             |
-|        `Doubao-seed-1.6`         |              230B             |
-|            `Kimi-K2`             |               1T              |
-|             `Qwen3`              | 4B / 8B / 14B / 32B / 80B / 235B |
-|            `GLM-4.5`             |              355B             |
-| `Llama-4-Scout-17B-16E-Instruct` |              109B             |
+| Model | Size |
+| :--: | :--: |
+| `GPT-5` | - |
+| `Gemini 2.5 Pro` | - |
+| `DeepSeek-R1` | 671B |
+| `Doubao-seed-1.6` | 230B |
+| `Kimi-K2` | 1T |
+| `Qwen3` | 4B / 8B / 14B / 32B / 80B / 235B |
+| `GLM-4.5` | 355B |
+| `Llama-4-Scout-17B-16E-Instruct` | 109B |
+
+</div>
 
 #### TCM domain LLMs
 
+<div align="center">
+
 | Model | Size |
-|:-:|:-:|
+| :--: | :--: |
 | `HuatuoGPT-o1-7B` | 7B |
 | `BianCang-Qwen2.5-7B` | 7B |
 | `Baichuan-M2-32B` | 32B |
@@ -137,6 +141,8 @@ The reward model developed in this work has been open‑sourced on ModelScope.
 | `ShizhenGPT-32B-LLM` | 32B |
 | `Zhongjing-GPT-13B` | 13B |
 | `Taiyi 2` | 9B |
+
+</div>
 
 ### 🛠️ Experimental Settings
 
@@ -296,6 +302,7 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
+
 
 
 
