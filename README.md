@@ -79,9 +79,9 @@ The selected-response questions in TCM-BEST4SDT include single-selection and mul
 
   - **Multiple-selection Questions:**
 
-    $$
-    S = \frac{|A \cap B|}{|A| + |\bar{A} \cap B|}
-    $$
+$$
+S = \frac{|A \cap B|}{|A| + |\bar{A} \cap B|}
+$$
 
     Notation:
     - $S$: score of the question
@@ -296,6 +296,7 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
+
 
 
 
