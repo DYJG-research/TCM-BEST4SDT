@@ -197,11 +197,11 @@ Edit `config_example.json`:
   "data_path": "TCM-BEST4SDT.json",
   "local_model_gpu_id": -1,
   "reward_api_host": "reward_model_api",
-  "reward_api_port": reward_model_port,
+  "reward_api_port": 8000,
   "reward_model_name": "fangji",
   "reward_api_key": "reward_model_key",
   "llm_judge_api_host": "judge_model_api",
-  "llm_judge_api_port": judge_model_port,
+  "llm_judge_api_port": 8000,
   "llm_judge_model_name": "Qwen3-32B",
   "llm_judge_api_key": "judge_model_key",
   "max_retries": 3,
@@ -302,6 +302,7 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
+
 
 
 
