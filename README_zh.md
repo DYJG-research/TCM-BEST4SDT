@@ -74,14 +74,14 @@ TCM-BEST4SDT 的客观题包含单项选择题、多项选择题与不定项选�
 
   - **多项选择题及不定项选择题**：
 
-    $$
-    S = \frac{|A \cap B|}{|A| + |\bar{A} \cap B|}
-    $$
+$$
+S = \frac{|A \cap B|}{|A| + |\bar{A} \cap B|}
+$$
 
-    符号说明：
-    - \(S\)：该题得分；
-    - \(A\)：标准答案集合；\(B\)：模型作答集合；
-    - \(|A \cap B|\)：正确选择数；\(|\bar{A} \cap B|\)：错误选择数。
+  符号说明:
+  - $S$: 该题得分
+  - $A$: 标准答案集合; $B$: 模型作答集合
+  - $|A \cap B|$: 正确选择数; $|\bar{A} \cap B|$: 错误选择数。
 
     最终题目得分取三轮得分的平均值。
 
@@ -109,22 +109,27 @@ TCM-BEST4SDT 的客观题包含单项选择题、多项选择题与不定项选�
 
 #### 通用领域大语言模型
 
-|               模型               |               规模               |
-| :------------------------------: | :------------------------------: |
-|             `GPT-5`              |                -                 |
-|         `Gemini 2.5 Pro`         |                -                 |
-|          `DeepSeek-R1`           |               671B               |
-|        `Doubao-seed-1.6`         |               230B               |
-|            `Kimi-K2`             |                1T                |
-|             `Qwen3`              | 4B / 8B / 14B / 32B / 80B / 235B |
-|            `GLM-4.5`             |               355B               |
-| `Llama-4-Scout-17B-16E-Instruct` |               109B               |
+<div align="center">
+
+| 模型  | 规模 |
+| :--: | :--: |
+| `GPT-5` | - |
+| `Gemini 2.5 Pro` | - |
+| `DeepSeek-R1` | 671B |
+| `Doubao-seed-1.6` | 230B |
+| `Kimi-K2` | 1T |
+| `Qwen3` | 4B / 8B / 14B / 32B / 80B / 235B |
+| `GLM-4.5` | 355B |
+| `Llama-4-Scout-17B-16E-Instruct` | 109B |
+
+</div>
 
 #### 中医领域大语言模型
 
+<div align="center">
+
 | 模型 | 规模 |
-|:-:|:-:|
-| `大医金匮` | - |
+| :--: | :--: |
 | `HuatuoGPT-o1-7B` | 7B |
 | `BianCang-Qwen2.5-7B` | 7B |
 | `Baichuan-M2-32B` | 32B |
@@ -132,6 +137,8 @@ TCM-BEST4SDT 的客观题包含单项选择题、多项选择题与不定项选�
 | `ShizhenGPT-32B-LLM` | 32B |
 | `Zhongjing-GPT-13B` | 13B |
 | `Taiyi 2` | 9B |
+
+</div>
 
 ### 🛠️ 实验设置
 
