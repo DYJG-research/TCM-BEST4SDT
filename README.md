@@ -14,7 +14,7 @@ TCM‑BEST4SDT covers four task families: TCM **B**asic Knowledge, Medical **E**
 
 For evaluation methodology, we designed three distinct evaluation mechanisms: (1) Objective question evaluation: Each question underwent multiple rounds of independent assessment with randomized option orders, and different scoring strategies were applied according to the question type; (2) Judge model evaluation: The responses of the evaluated models were scored by a judge model incorporating expert-designed prompts; (3) Reward model evaluation: A dedicated reward model was trained to quantify the degree of compatibility (or match) between the generated prescriptions and their corresponding syndrome.
 
-We conducted experiments on 16 mainstream large models, encompassing both general and TCM domain models, which validated the sensitivity and effectiveness of TCM-BEST4SDT.
+We conducted experiments on 15 mainstream large models, encompassing both general and TCM domain models, which validated the sensitivity and effectiveness of TCM-BEST4SDT.
 
 <div align="center">
   <img src="images/methods.png" width="80%"/>
@@ -302,6 +302,7 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
+
 
 
 
