@@ -192,7 +192,7 @@ pip install -r requirements.txt
   "local_model_gpu_id": -1,
   "reward_api_host": "reward_model_api",
   "reward_api_port": 8000,
-  "reward_model_name": "fangji",
+  "reward_model_name": "Fangzheng-RM",
   "reward_api_key": "reward_model_key",
   "llm_judge_api_host": "judge_model_api",
   "llm_judge_api_port": 8000,
