@@ -113,6 +113,8 @@ The reward model developed in this work has been open‑sourced on ModelScope.
 
 ### 🤖 Model Selection
 
+#### General domain LLMs
+
 <div align="center">
 
 | Model | Size |
@@ -302,6 +304,7 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
+
 
 
 
