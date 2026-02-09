@@ -119,8 +119,8 @@ The reward model developed in this work has been open‑sourced on ModelScope.
 
 | Model | Size |
 | :--: | :--: |
-| `GPT-5` | - |
-| `Gemini 2.5 Pro` | - |
+| `GPT-5.2` | - |
+| `Gemini 3 Pro` | - |
 | `DeepSeek-R1` | 671B |
 | `Doubao-seed-1.6` | 230B |
 | `Kimi-K2` | 1T |
@@ -149,32 +149,84 @@ The reward model developed in this work has been open‑sourced on ModelScope.
 ### 🛠️ Experimental Settings
 
 - **Deployment via SWIFT Framework (small-scale open-source):** Locally deployed using the `SWIFT` framework, with unified invocation and evaluation through an OpenAI-compatible interface;
-- **Official API Access (large-scale open-source/closed-source):** Remotely invoked and evaluated via official APIs, including `GPT-5`, `Gemini 2.5 Pro`, `DeepSeek-R1`, `Doubao-seed-1.6`, `Kimi-K2`, and `GLM-4.5`;
+- **Official API Access (large-scale open-source/closed-source):** Remotely invoked and evaluated via official APIs, including `GPT-5.2`, `Gemini 3 Pro`, `DeepSeek-R1`, `Doubao-seed-1.6`, `Kimi-K2`, and `GLM-4.5`;
 - **Deployment via Transformers Library:** Only `Taiyi 2` was locally loaded and evaluated using the `Transformers` library;
 - **Unified Settings:** The evaluation temperature for all models was fixed at `0` to ensure stability and reproducibility;
 - **Chain-of-Thought Evaluation:** For models lacking reasoning capabilities (e.g., `Kimi-K2`, `Llama-4-Scout`), the `--skip_think` option can be used to control whether chain-of-thought quantification is applied.
 
-
 ### 📊 Results & Analysis
 
+#### Main Evaluation Results
 <div align="center">
-  <img src="images/main_results.png" width="60%"/>
+  <img src="images/main_results.svg" width="60%"/>
   <br/>
   <em>Figure 1: Performance of 15 LLMs on the TCM-BEST4SDT benchmark dataset</em>
 </div>
 
-1. <strong>Some TCM domain models outperform general domain models</strong>: Models such as“ShizhenGPT-32B-LLM” demonstrated outstanding performance, indicating that high-quality TCM corpora combined with supervised fine-tuning can effectively enhance their clinical inference capabilities.
-2. <strong>Most TCM models lag behind certain general domain models</strong>: Examples include “Sunsimiao-Qwen2-7B,” “Zhongjing-GPT-13B,” and “Taiyi 2.” Possible reasons include generally smaller parameter scales and over-reliance on medical/TCM corpora during training, whereas real-world clinical scenario corpora are limited,  leading to insufficient generalization ability. TCM-BEST4SDT is centered on SDT capabilities. It places higher demands on the decision-making abilities of LLMs in clinical contexts; consequently, the performance of these TCM models on this benchmark was relatively poor.
-3. <strong>Among general large language models, GPT-5 scores significantly lower than Gemini 2.5 Pro</strong>: This gap may reflect differences in TCM-related coverage within their training corpora. Gemini 2.5 Pro incorporated richer medical and TCM knowledge during pretraining, thereby demonstrating stronger semantic understanding and transfer capability when handling TCM knowledge-intensive tasks.
-4. <strong>sAs shown in Figure 2, the performance of the Qwen3 series steadily improves with model scale</strong>: This validates the effectiveness of the scaling law and highlights the sensitivity and effectiveness of TCM-BEST4SDT in differentiating model capabilities.
+**Key findings (high-level):**
+
+- **Overall leaderboard:** Gemini 3 Pro (0.8711) ranks first, followed by Doubao-seed-1.6 (0.8303).
+- **Best TCM-domain model:** ShizhenGPT-32B-LLM reaches 0.7826.
+- **Reasoning trace availability matters for process evaluation:** we report results for models with explicit CoT traces and those without explicit CoT traces separately.
+- **Gemini 3 Pro vs GPT-5.2:** Gemini 3 Pro leads overall (0.8711 vs 0.7866), mainly due to TCM Basic Knowledge (0.9567 vs 0.6567), while SDT performance is comparable (0.8342 vs 0.8415).
+
+1. <strong>Frontier general-domain LLMs demonstrated strong overall performance.</strong>
+
+  Gemini 3 Pro achieved the highest total score (0.8711), followed by Doubao-seed-1.6 (0.8303), indicating strong Syndrome Differentiation and Treatment (SDT) capability. These high scores suggest that the models can leverage patient information in case descriptions to produce accurate syndrome differentiation and generate prescriptions that are highly consistent with the inferred syndromes.
+
+  The top-performing TCM domain LLM, ShizhenGPT-32B-LLM, also performed competitively with a total score of 0.7826. However, a clear performance gap remains between frontier general-domain models and most TCM domain LLMs; for instance, Sunsimiao-Qwen2-7B reached 0.5161. This gap likely reflects (i) the disparity in model scale between many current TCM domain LLMs and frontier models, which constrains robustness for complex clinical-case interpretation and SDT decision-making, and (ii) differences in training objectives: many TCM domain LLMs are optimized for specific application patterns rather than broad SDT-oriented clinical coverage.
+
+2. <strong>Models with explicit CoT traces vs models without explicit CoT traces.</strong>
+
+  We observed clear differences between models that provide an explicit, separable reasoning trace and those that output only final answers. Accordingly, we group evaluated systems into (i) models with explicit CoT outputs and (ii) models without explicit CoT outputs.
+
+  This distinction reflects <em>reasoning transparency</em> rather than reasoning capability: the absence of an explicit CoT does not imply an absence of reasoning. For example, Kimi-K2 was trained with reinforcement learning on mathematics, STEM, and logical reasoning tasks, indicating it can perform non-trivial reasoning internally. However, because intermediate reasoning is not emitted as a separable CoT trace, CoT-focused process evaluation is not directly applicable.
+
+  We therefore report results for these two groups in parallel, interpret competitive overall scores from models without explicit CoT traces as potentially arising from strong internal reasoning, and emphasize that auditable reasoning-process assessment requires explicit reasoning traces.
+
+3. <strong>GPT-5.2 vs Gemini 3 Pro: a knowledge–reasoning trade-off.</strong>
+
+  Gemini 3 Pro achieved a higher total score (0.8711), whereas GPT-5.2 obtained 0.7866. This advantage is primarily attributable to the TCM Basic Knowledge task: Gemini 3 Pro scored 0.9567 compared with 0.6567 for GPT-5.2 (Table 1), suggesting broader coverage of TCM terminology and theoretical concepts.
+
+  Notably, the two models performed comparably on the core SDT task: Gemini 3 Pro scored 0.8342 and GPT-5.2 scored 0.8415. This indicates that, despite differences in domain knowledge breadth, both models exhibit strong capabilities in the reasoning required for clinical case analysis.
+
+<div align="center">
+  <img src="images/task_score_results.png" width="60%"/>
+  <br/>
+  <em>Table 1: Performance of 15 large language models across four evaluation tasks on TCM-BEST4SDT. </em>
+</div>
+
+<div align="center">
+  <img src="images/Fig_Radar_SDT_Dimensions.svg" width="60%"/>
+  <br/>
+  <em>Figure 2: Dimension-level scores on the Syndrome Differentiation and Treatment task for reasoning and non-reasoning models.</em>
+</div>
+
+#### Evaluation of Scaling Laws
+To validate the benchmark's sensitivity to model capacity, we conducted a controlled evaluation on the Qwen3 series (4B, 8B, 14B, and 32B). Performance exhibited a steady upward trend strictly correlated with model scale, as illustrated in Figure 3. This monotonic increase demonstrates that TCM-BEST4SDT is sufficiently sensitive to discriminate between models of varying capabilities.
 
 Overall, the evaluation results demonstrate that TCM-BEST4SDT can objectively reflect the performance differences among various types of LLMs on TCM tasks and effectively demonstrate their potential application value in real-world clinical scenarios. By constructing a quantitative and reproducible evaluation system, this study provides a scientific basis for the clinical application of TCM domain LLMs and further promotes the standardization and industrialization of intelligent TCM research.
 
+<div align="center" style="margin-top:8px;">
+  <img src="images/qwen3_scores.svg" width="60%"/>
+  <br/>
+  <em>Figure 3: Scores of six Qwen3 model sizes on TCM‑BEST4SDT</em>
+</div>
+
+#### Comparison between TCM Domain LLMs and Their Base Models
+
+A critical objective of TCM-BEST4SDT is to assess whether domain-specific fine-tuning yields measurable gains over generic foundation models in SDT-oriented clinical reasoning. To isolate the effect of domain adaptation from base-model capacity, we compared representative TCM-fine-tuned models with their corresponding foundational base models.
+
+Specifically, ShizhenGPT-32B-LLM and Baichuan-M2-32B were compared against Qwen2.5-32B-Instruct36, and BianCang-Qwen2.5-7B and HuatuoGPT-o1-7B were compared against Qwen2.5-7B-Instruct36, as summarized in Figure 4.
+
+Unexpectedly, the generic foundation models outperformed their TCM-fine-tuned counterparts in our benchmark. For example, Qwen2.5-32B-Instruct achieved a total score of 0.8077, exceeding the 0.7826 obtained by ShizhenGPT-32B-LLM. Similarly, Qwen2.5-7B-Instruct achieved 0.6698, slightly higher than the 0.6632 obtained by HuatuoGPT-o1-7B.
+
+This pattern indicates that domain-specific supervised fine-tuning does not necessarily yield a net performance gain under an SDT-oriented evaluation framework. One contributing factor may be that many TCM domain LLMs are trained with objectives oriented toward specific application scenarios, and their supervision data may emphasize narrower interaction patterns rather than broad clinical-case coverage. In contrast, the corresponding foundation models are typically post-trained on more diverse instruction data, which can better support robust case interpretation and more generalizable clinical decision-making. We report this finding as an empirical benchmark observation, underscoring the need for more systematic investigation of domain-tuning strategies that preserve general reasoning while improving clinically grounded SDT performance.
 
 <div align="center" style="margin-top:8px;">
-  <img src="images/qwen3_scores.png" width="60%"/>
+  <img src="images/Base_vs_Finetuned.svg" width="60%"/>
   <br/>
-  <em>Figure 2: Scores of six Qwen3 model sizes on TCM‑BEST4SDT</em>
+  <em>Figure 4: Comparison of TCM domain large language models with their corresponding base models.</em>
 </div>
 
 ## 🚀 Quick Start
@@ -278,13 +330,14 @@ python tcm_benchmark.py \
 If you use TCM‑BEST4SDT in your research, please cite our work:
 
 ```bibtex
-@misc{TCM-BEST4SDT,
-  author={DYJG-research},
-  title = {A benchmark dataset for evaluating the comprehensive capability of Syndrome Differentiation and Treatment in traditional Chinese medicine},
-  year = {2025},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {https://github.com/DYJG-research/TCM-BEST4SDT},
+@misc{li2025benchmarkdatasetevaluatingsyndrome,
+      title={A benchmark dataset for evaluating Syndrome Differentiation and Treatment in large language models}, 
+      author={Kunning Li and Jianbin Guo and Zhaoyang Shang and Yiqing Liu and Hongmin Du and Lingling Liu and Yuping Zhao and Lifeng Dong},
+      year={2025},
+      eprint={2512.02816},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2512.02816}, 
 }
 ```
 
@@ -304,7 +357,6 @@ We thank the following open-source projects for their support:
 - **[Taiyi-LLM](https://github.com/DUTIR-BioNLP/Taiyi-LLM)**
 
 ---
-
 
 
 
