@@ -113,8 +113,8 @@ $$
 
 | 模型  | 规模 |
 | :--: | :--: |
-| `GPT-5` | - |
-| `Gemini 2.5 Pro` | - |
+| `GPT-5.2` | - |
+| `Gemini 3 Pro` | - |
 | `DeepSeek-R1` | 671B |
 | `Doubao-seed-1.6` | 230B |
 | `Kimi-K2` | 1T |
@@ -150,24 +150,78 @@ $$
 
 ### 📊 结果与分析
 
+#### 主要评测结果
 <div align="center">
-  <img src="images/main_results.png" width="60%"/>
+  <img src="images/main_results.svg" width="60%"/>
   <br/>
-  <em>图 1：15 个大语言模型在 TCM-BEST4SDT 上的表现</em>
-  </div>
+  <em>图 1：15 个大语言模型在 TCM-BEST4SDT 基准数据集上的表现</em>
+</div>
 
-1. <strong>部分中医领域模型领先通用模型</strong>：如“ShizhenGPT-32B-LLM”等表现突出。说明高质量中医语料与监督微调可有效增强模型临床推断水平。
-2. <strong>多数中医模型落后于部分通用模型</strong>：如 “Sunsimiao-Qwen2-7B”“Zhongjing-GPT-13B”“Taiyi 2”。可能原因包括：参数规模普遍较小；训练中过度依赖医学/中医语料而临床场景语料不足导致泛化欠佳。TCM-BEST4SDT 以辨证论治为核心，对临床语境下的决策能力要求更高，因而这些中医模型表现不佳。
-3. <strong>在通用大语言模型中，GPT-5 得分明显低于 Gemini 2.5 Pro</strong>：这一差距可能反映出两者在训练语料中中医相关数据覆盖度的差异。Gemini 2.5 Pro 在预训练阶段引入了更丰富的医学与中医知识，从而在应对中医知识密集型任务时具备更强的语义理解与迁移能力。
-4. <strong>如图2所示，Qwen3 系列随模型规模增大性能稳步提升</strong>：验证了 scaling law 的有效性，同时体现 TCM-BEST4SDT 在区分模型能力上的灵敏度与有效性。
+**核心结论（概览）：**
 
-综合来看，评测结果表明，TCM-BEST4SDT 能客观刻画不同类型大语言模型在中医任务中的性能差异，并反映其在临床场景的潜在应用价值。通过构建量化且可复现的评估体系，本研究为中医大语言模型的临床应用提供了依据，并有望推动中医智能化研究的规范化与产业化发展。
+- **总体排名：**Gemini 3 Pro（0.8711）位居第一，Doubao-seed-1.6（0.8303）位列第二。
+- **中医领域模型代表：**ShizhenGPT-32B-LLM 的总分为 0.7826。
+- **过程评测受“推理轨迹可见性”影响：**我们将“显式输出 CoT”的模型与“不显式输出 CoT”的模型分别报告。
+- **Gemini 3 Pro vs GPT-5.2：**Gemini 3 Pro 总分领先（0.8711 vs 0.7866），主要优势来自中医基础知识（0.9567 vs 0.6567），而辨证论治能力表现相近（0.8342 vs 0.8415）。
+
+1. <strong>前沿通用模型整体表现突出。</strong>
+
+  Gemini 3 Pro 获得最高总分（0.8711），Doubao-seed-1.6 次之（0.8303），表明其具备较强的辨证论治能力。这些结果提示，模型能够利用病例描述中的患者信息完成相对准确的辨证，并生成与所辨证型高度一致的处方。
+
+  中医领域模型中表现最佳的 ShizhenGPT-32B-LLM 取得 0.7826，也具备竞争力。但前沿通用模型与多数中医领域模型之间仍存在差距，例如 Sunsimiao-Qwen2-7B 为 0.5161。该差距可能反映了：（i）模型规模限制了其复杂临床语境理解与临床决策的能力；（ii）训练目标差异：部分中医领域模型更偏向特定应用形态优化，而非覆盖更广的辨证论治临床能力。
+
+2. <strong>显式 CoT 模型与非显式 CoT 模型：过程评测的适用性差异。</strong>
+
+  我们观察到，能够输出显式、可分离推理过程（CoT）的模型，与仅输出最终答案的模型存在明显差异。因此，我们将评测对象分为（i）显式 CoT 模型与（ii）非显式 CoT 模型两组，并分别给出结果。
+
+  这种划分反映的是<strong>推理透明度</strong>而非推理能力：不输出显式 CoT 不代表不具备推理能力。例如，Kimi-K2 通过强化学习在数学、STEM 与逻辑推理任务上进行训练，具备非平凡的内部推理能力；但由于其不以可分离的 CoT 形式输出中间推理过程，基于 CoT 的过程评测并不直接适用。
+
+  因此，我们并行报告两类模型的结果：对非显式 CoT 模型的整体高分，更倾向于解释为强内部推理能力的体现；同时强调，可审计的推理过程评估需要显式推理轨迹。
+
+3. <strong>GPT-5.2 vs Gemini 3 Pro：知识覆盖与推理能力的权衡。</strong>
+
+  Gemini 3 Pro 的总分更高（0.8711），而 GPT-5.2 为 0.7866。其优势主要来自中医基础知识任务：Gemini 3 Pro 为 0.9567，而 GPT-5.2 为 0.6567（表 1），提示 Gemini 3 Pro 对中医术语与理论概念覆盖更广。
+
+  值得注意的是，两者在核心辨证论治任务上的表现相近：Gemini 3 Pro 为 0.8342，GPT-5.2 为 0.8415。这表明尽管知识覆盖存在差异，两者在临床病例分析所需的推理能力上均表现较强。
+
+<div align="center">
+  <img src="images/task_score_results.png" width="60%"/>
+  <br/>
+  <em>表 1：15 个大语言模型在 TCM-BEST4SDT 四项评测任务上的表现</em>
+</div>
+
+<div align="center">
+  <img src="images/Fig_Radar_SDT_Dimensions.svg" width="60%"/>
+  <br/>
+  <em>图 2：推理/非推理模型在辨证论治任务各维度的得分对比</em>
+</div>
+
+#### Scaling Laws 评估
+为验证基准对模型能力（规模）差异的敏感性，我们在 Qwen3 系列（4B、8B、14B 与 32B）上进行了受控评测。结果显示性能随模型规模提升呈现稳定的单调上升趋势（见图 3），表明 TCM-BEST4SDT 对不同能力水平模型具有良好的区分度。
+
+总体而言，评测结果表明 TCM-BEST4SDT 能够客观反映不同类型大语言模型在中医任务上的表现差异，并有效展示其在真实临床场景中的潜在应用价值。通过构建量化、可复现的评估体系，本研究为中医领域大语言模型的临床应用提供了科学依据，并有望推动中医智能化研究的标准化与产业化。
 
 <div align="center" style="margin-top:8px;">
-  <img src="images/qwen3_scores.png" width="60%"/>
+  <img src="images/qwen3_scores.svg" width="60%"/>
   <br/>
-  <em>图 2：Qwen3 不同规模模型在 TCM-BEST4SDT 上的表现</em>
-  </div>
+  <em>图 3：Qwen3 不同模型规模在 TCM‑BEST4SDT 上的得分</em>
+</div>
+
+#### 中医领域模型与其基座模型对比
+
+TCM-BEST4SDT 的一个关键目标是检验：面向中医领域的专门微调是否能在 辨证论治 导向的临床推理评估中带来可观提升。为尽可能剥离“基座模型能力”对结果的影响，我们将代表性的中医微调模型与其对应的通用基座模型进行了对比。
+
+具体而言，我们将 ShizhenGPT-32B-LLM 与 Baichuan-M2-32B 对比 Qwen2.5-32B-Instruct，将 BianCang-Qwen2.5-7B 与 HuatuoGPT-o1-7B 对比 Qwen2.5-7B-Instruct（见图 4）。
+
+出人意料的是，在本基准上，通用基座模型整体优于其对应的中医微调模型。例如，Qwen2.5-32B-Instruct 的总分为 0.8077，高于 ShizhenGPT-32B-LLM 的 0.7826；Qwen2.5-7B-Instruct 为 0.6698，也略高于 HuatuoGPT-o1-7B 的 0.6632。
+
+这一现象提示：在 辨证论治 导向的评测框架下，领域监督微调并不必然带来净增益。一个可能原因是，部分中医领域模型的训练目标更偏向特定应用场景，监督数据也可能更强调特定交互模式而非覆盖更广的临床病例推理；相比之下，通用基座模型往往在更丰富多样的指令数据上进行后训练，从而在病例理解与临床决策泛化方面更稳健。我们将该结论作为基准观测结果报告，并强调需要进一步系统研究能够在提升中医知识与临床辨证论治能力的同时保留通用推理能力的领域适配策略。
+
+<div align="center" style="margin-top:8px;">
+  <img src="images/Base_vs_Finetuned.svg" width="60%"/>
+  <br/>
+  <em>图 4：中医领域大语言模型与其对应基座模型的对比</em>
+</div>
 
 ## 🚀 快速开始
 
@@ -272,13 +326,14 @@ python tcm_benchmark.py \
 如果您在研究中使用了 TCM‑BEST4SDT，请引用我们的工作：
 
 ```bibtex
-@misc{TCM-BEST4SDT, 
-  author={DYJG-research}, 
-  title = {A benchmark dataset for evaluating Syndrome Differentiation and Treatment in large language models}, 
-  year = {2025}, 
-  publisher = {GitHub}, 
-  journal = {GitHub repository}, 
-  howpublished = {https://github.com/DYJG-research/TCM-BEST4SDT}, 
+@misc{li2025benchmarkdatasetevaluatingsyndrome,
+      title={A benchmark dataset for evaluating Syndrome Differentiation and Treatment in large language models}, 
+      author={Kunning Li and Jianbin Guo and Zhaoyang Shang and Yiqing Liu and Hongmin Du and Lingling Liu and Yuping Zhao and Lifeng Dong},
+      year={2025},
+      eprint={2512.02816},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2512.02816}, 
 }
 ```
 
