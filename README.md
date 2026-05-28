@@ -27,11 +27,13 @@ We conducted experiments on 15 mainstream large models, encompassing both genera
 #### 🎓 Data Collection & Preprocessing
 
 - 🧩 Task Types & Sources
-  - **Syndrome Differentiation & Treatment**: derived from clinical cases and classical case records.
+  - **Syndrome Differentiation & Treatment(TCM_SDT.json)**: derived from clinical cases and classical case records.
   - **General Evaluation Tasks**: Covering TCM Basic Knowledge, Medical Ethics, and LLM Content Safety.
-    - **TCM Basic Knowledge**: Selected from publicly available examination question banks, including the National Qualification Examination for Medical Practitioners,  the National Postgraduate Entrance Examination: Comprehensive Clinical Medicine (TCM Integrated), Chinese Herbal Medicine Title Examination;
-    - **Medical Ethics**: In addition to authoritative question banks, samples were annotated by experts based on specific scenarios;
-    - **LLM Content Safety**: Independently designed and constructed by experts in relevant fields based on practical requirements.
+    - **TCM Basic Knowledge(Basic_knowledge.json)**: Selected from publicly available examination question banks, including the National Qualification Examination for Medical Practitioners,  the National Postgraduate Entrance Examination: Comprehensive Clinical Medicine (TCM Integrated), Chinese Herbal Medicine Title Examination;
+    - **Medical Ethics(Medical_Ethics.json)**: In addition to authoritative question banks, samples were annotated by experts based on specific scenarios;
+    - **LLM Content Safety(LLM_Content_Safety.json)**: Independently designed and constructed by experts in relevant fields based on practical requirements.
+
+> Note: TCM-BEST4SDT.json, the complete dataset.
 
 - 🔧 Preprocessing
   1. **Deduplication:** All cases and examination questions were deduplicated to ensure sample independence;
